@@ -1,0 +1,7 @@
+{
+	"name": "damaera/damn",
+	"description": "Damn PHP framework",
+	"require": {
+		"php": ">=5.3.0",
+	}
+}
