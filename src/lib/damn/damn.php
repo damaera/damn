@@ -1,6 +1,9 @@
 <?php 
 
 /**
+* @author damaera [damaera@live.com]
+*
+*
 * 
 */
 class Damn
@@ -8,33 +11,34 @@ class Damn
 	function __construct()
 	{
 
-		include 'app/config.php';
+		require 'app/config.php';
 
 		if (PHASE == 'development') {
-			\php_error\reportErrors();
+			error_reporting(E_ALL);
 		}
 		if (PHASE == 'production'){
 			error_reporting(0);
 		}
+		if (file_exists('vendor/autoload.php')) {
+			require 'vendor/autoload.php';
+		}
 
-
-		foreach (glob("app/controllers/*.php") as $filename)
+		foreach (glob("app/controllers/*Controller.php") as $filename)
 		{
 			include $filename;
 		}
-		foreach (glob("app/models/*.php") as $filename)
+		foreach (glob("app/models/*Model.php") as $filename)
 		{
 			include $filename;
 		}
 
 		config(array(
-			'mustache.cache'	=> VIEW_CACHE,
-			'mustache.views'	=> VIEW_DIR,
-			'mustache.layout'	=> VIEW_LAYOUT
+			'views.cache'	=> VIEW_CACHE,
+			'views.layout'	=> VIEW_LAYOUT
 		));
-		
-		Mustache_Autoloader::register();
-		include 'app/routes.php';
+
+		require 'app/routes.php';
+
 		dispatch();
 	}
 }

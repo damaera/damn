@@ -13,7 +13,7 @@ if (! is_null($argv[0])) {
 				case 'make':
 					$name = $argv[2];
 					$table = $argv[3];
-					$file = fopen($dir."/app/models/".$name.'.php', "wb");
+					$file = fopen($dir."/app/models/".$name.'Model.php', "wb");
 					fwrite($file, modelText($name, $table));
 					echo $name." model for table ".$table." created, go to app/models/".$name.".php";
 					
@@ -31,21 +31,21 @@ if (! is_null($argv[0])) {
 					$name = $argv[2];
 					$file = fopen($dir."/app/controllers/".$name.'.php', "wb");
 					fwrite($file, controllerText($name, 0));
-					echo $name." controller created, go to app/controllers/".$name.".php";
-					break;
-
-				case 'make:crud':
-
-					$name = $argv[2];
-					$table = $argv[3];
-					$file = fopen($dir."/app/controllers/".$name.".php", "wb");
-					fwrite($file, controllerText($name, 1, $table));
-					echo $name." crud controller created, go to app/controllers/".$name.".php";
+					echo $name." controller created, go to app/controllers/".$name."Controller.php";
 					break;
 				
 				default:
 					errorText();
 					break;
+			}
+			break;
+		case 'serve':
+			if ($argv[1] > 0) {
+				echo "Server running at 127.0.0.1:$argv[1]\n";
+				system("php -S 127.0.0.1:$argv[1]");
+			}
+			else{
+				echo "$argv[1] is Invalid Port\n";
 			}
 			break;
 		default:
@@ -58,10 +58,13 @@ else{
 	errorText();
 }
 function errorText(){
-	echo "available command : \n";
-	echo "- model make model-name table_name\n";
-	echo "- controller make controller-name\n";
-	echo "- controller make:crud controller-name model-name\n";
+	echo "Available Command : \n\n";
+	echo "Running Server:\n\n";
+	echo "serve <port>\n\n";
+
+	echo "Application :\n\n";
+	echo "model make <model-name> <table-name>\n";
+	echo "controller make <controller-name>\n";
 }
 
 function controllerText($name, $tipe = 0, $table = ""){
@@ -73,9 +76,9 @@ function controllerText($name, $tipe = 0, $table = ""){
 				"/**",
 				"*Generated from cli",
 				"*/",
-				"class ".$name." {",
+				"class ".$name."Controller {",
 				"",
-				"\t"."public function base() {",
+				"\t"."public function index() {",
 				"\t\t",
 				"\t\t#code",
 				"\t\t",
@@ -90,7 +93,7 @@ function controllerText($name, $tipe = 0, $table = ""){
 				"/**",
 				"*Generated from cli",
 				"*/",
-				"class ".$name." {",
+				"class ".$name."Controller {",
 				"",
 				"\t"."public function data() {",
 				"\t\t",
@@ -114,7 +117,7 @@ function modelText($name, $table){
 		"*Generated from cli",
 		"*",
 		"*/",
-		"class ".$name." {",
+		"class ".$name."Model {",
 		"\t",
 		"\tpublic \$table_name = '".$table."';",
 		"\t",

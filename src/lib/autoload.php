@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * just autoload
+ * @var array
+ */
 $includes = array(
 	'dispatch/dispatch.php',
-	'mustache/Autoloader.php',
+	'damn/view.php',
+	'damn/loader.php',
+	'lightcandy/lightcandy.php',
 	'DB/db.php',
-	'damn/damn.php',
-	'error/phperror.php'
+	'damn/damn.php'
 );
 
 

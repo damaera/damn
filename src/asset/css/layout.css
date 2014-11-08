@@ -1,0 +1,286 @@
+
+/* #Reset & Basics (Inspired by E. Meyers)
+================================================== */
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline; }
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		display: block; }
+	body {
+		line-height: 1; }
+	ol, ul {
+		}
+	blockquote, q {
+		quotes: none; }
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none; }
+	table {
+		border-collapse: collapse;
+		border-spacing: 0; }
+
+
+/* #Basic Styles
+================================================== */
+	body {
+		background: #fff;
+		font: 15px/26px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #333;
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: 100%;
+ }
+ 
+ td{
+ 	padding: 10px;
+ }
+ tr{
+ 	border-bottom: solid 1px #ddd;
+ }
+ th{
+ 	padding: 15px 10px;
+ 	color: #c66;
+ 	font-weight: bold;
+ 	font-size: 1.1em;
+ }
+ table{
+ 	border-top: solid 1px #ddd;
+ }
+ a {
+ 	color: #c66;
+ 	text-decoration: none;
+ }
+ a:hover {
+ 	text-decoration: underline;
+ }
+ .post img{
+ 	width: 100%;
+ }
+
+
+/* #Typography
+================================================== */
+	h1, h2, h3, h4, h5, h6 {
+		font-weight: bold; }
+	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+	h1 { font-size: 75px; line-height: 80px; margin-bottom: 14px;}
+	h2 { font-size: 35px; line-height: 40px; margin-bottom: 10px; }
+	h3 { font-size: 28px; line-height: 34px; margin-bottom: 8px; }
+	h4 { font-size: 21px; line-height: 30px; margin-bottom: 4px; }
+	h5 { font-size: 17px; line-height: 24px; }
+	h6 { font-size: 14px; line-height: 21px; }
+	p  { margin-bottom: 22px; }
+
+
+/* #Main styles
+================================================== */
+h3{
+	color: #c66;
+}
+h5{
+	font-size: 1.5em;
+	line-height: 2em;
+	border-bottom: solid 1px #ddd;
+	position: relative;
+}
+h5:before{
+	content: '#';
+	position: absolute;
+	left: -25px;
+
+}
+p{
+	padding: 10px 0;
+}
+.logo{
+	width: 50%;
+	padding: 0px 25% 30px 25%;
+	margin-top: -80px;
+}
+.header{
+	padding: 10px 0;
+	background-color: #c66;
+}
+
+.menuItem{
+	padding: 0 20px;
+	width: auto;
+	display: inline-block;
+	float: right;
+	color: #fff;
+	font-size: 1.2em;
+	text-align: right;
+}
+
+.jumbo {
+	position: relative;
+}
+.jumbo .container {
+	padding: 180px 0 0 0;
+}
+.jumbo h1 {
+	letter-spacing: -3px;
+	position: relative;
+	margin-bottom: 5px;
+}
+.jumbo h3 {
+	margin-bottom: 20px;
+	color: #c66;
+}
+.jumbo .noise,
+.jumbo .stripes {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+/* Primary content container 	*/
+.primary.container {
+	padding-top: 100px;
+}
+
+/*Hogan divider */
+.divider {
+	padding-top: 60px;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 60px;
+	clear: both;
+	position: relative;
+}
+.divider2{
+	padding-top: 30px;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 30px;
+	clear: both;
+	position: relative;
+}
+
+/* Button style */
+.button {
+  display: inline-block;
+  cursor: pointer;
+	background: #fff;
+	margin-bottom: 20px;
+	color: #c66;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 15px;
+	padding: 0 34px;
+	line-height: 46px;
+	font-weight: bold;
+	border: solid 3px #c66;
+	-webkit-transition: background-color .3s ease-in-out;
+	   -moz-transition: background-color .3s ease-in-out;
+	     -o-transition: background-color .3s ease-in-out;
+	        transition: background-color .3s ease-in-out;
+
+}
+.button:hover {
+	text-decoration: inherit;
+	color: #fff;
+	background-color: #c66;
+}
+
+/* Hogan footer */
+.footer {
+	border-top: 1px solid #ddd;
+	margin-top: 60px;
+	padding: 20px 0 40px;
+	color: #999;
+	font-size: 12px;
+}
+.footer .copyright {
+	float: left;
+}
+.footer .colophon {
+	float: right;
+}
+
+.menu{
+	opacity: 0.7;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+.menu:hover{
+	opacity: 1;
+}
+
+.menu a div{
+	color: #666;
+	font-size: 0.9em;
+}
+.menu a div:hover{
+	color: #c66;
+}
+.menu h4{
+	color: #c66;
+}
+pre, code {
+	line-height: 1.5em;
+	background: #F8F8FF;
+	border: 1px solid #DDD;
+	margin-bottom: 20px;
+	font-family: monospace;
+}
+code{
+	padding: 3px 5px;
+	font-size: 0.85em;
+}
+pre code {
+	font-size: 0.95em;
+	border: 0;
+	padding: 0;
+	margin-bottom: 0;
+}
+pre{
+	padding: 15px;
+	overflow-x: scroll;
+}
+strong{
+	font-weight: bold;
+}
+em{
+	font-style: italic;
+}
+strong code{
+	font-size: 0.9em;
+	background-color: #ddd;
+}
+.menutmp2{
+	display: none;
+}
+
+/* #Media Queries
+================================================== */
+
+	/* Smaller than standard 960 (devices and browsers) */
+	@media only screen and (max-width: 959px) {}
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {
+		.jumbo .container {
+			padding: 100px 0;
+		}
+		.menutmp2{
+			display: block;
+		}
+		.menutmp1{
+			display: none;
+		}
+	}
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {}

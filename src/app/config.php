@@ -18,8 +18,8 @@ define('DB_USER' , '');
 define('DB_PASS' , '');
 
 /*
-View directory, cache, and default layout
+View cache directory and default layout
 */
-define('VIEW_DIR', './app/views');
-define('VIEW_CACHE', './tmp/cache');
+
+define('VIEW_CACHE', './tmp/cache/');
 define('VIEW_LAYOUT', 'layout');

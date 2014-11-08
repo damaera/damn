@@ -1,18 +1,50 @@
 <?php
 
 /**
-* 
-*/
+ * @author damaera [damaera@live.com]
+ *
+ *
+ * 
+ * Class Damn DB query builder
+ */
 class DB
-{
+{	
+	/**
+	 * raw query sql
+	 * @var string
+	 */
 	public $query;
-	protected $table, $status = 0;
+
+	/**
+	 * $table_name from model
+	 * @var string
+	 */
+	protected $table;
+	/**
+	 * status for switching query
+	 * @var integer
+	 */
+	protected $status = 0;
+
+	/**
+	 * bound PDO, for replacing '?' in query
+	 * @var array
+	 */
 	protected $params = array();
 
+	/**
+	 * Getting data from model->table_name
+	 * @param [type] $table [description]
+	 */
 	function __construct($table) {
 		$this->table = $table;
 	}
 
+	/**
+	 * Connect DB with PDO, 
+	 * 	 * get data from app/config.php
+	 * @return PDO object
+	 */
 	protected function connectDB()
 	{
 		$dbhost=DB_HOST;
@@ -25,11 +57,31 @@ class DB
 		return $dbh;
 	}
 
-	public function raw($str = "", $params=array()){
+	/**
+	 * usage:
+	 * model('namaModel')->data->raw('SELECT * FROM model WHERE id = ?', array(1))->fetch();
+	 * 
+	 * @param  string $str    sql query with bind param '?' pdo
+	 * @param  array  $params parameter pdo for replacing '?'
+	 * @return this, chaining method
+	 */
+	public function raw($str = "", $params = array()){
 		$this->query = $str;
 		$this->params = $params;
 		return $this;
 	}
+
+	/**
+	 * set SELECT query,
+	 * 
+	 * usage :
+	 * model('nameModel')->data->select();
+	 * 
+	 * output :
+	 * SELECT * FROM tableName
+	 * @param  string $str
+	 * @return this, chaining method
+	 */
 	public function select($str = "*"){
 		if ($this->status == 0) {
 			$this->status = 1;
@@ -38,6 +90,12 @@ class DB
 		return $this;
 	}
 
+	/**
+	 * [where description]
+	 * @param  string $str    [description]
+	 * @param  array  $params [description]
+	 * @return [type]         [description]
+	 */
 	public function where($str = "", $params = array()){
 		if ($this->status == 0) {
 			$this->query = "SELECT * FROM $this->table WHERE $str";
@@ -49,21 +107,40 @@ class DB
 		return $this;
 	}
 
-	public function distinct(){
-		if ($this->status == 1) {
-			$query = $this->query;
-			$this->query = str_replace("SELECT", "SELECT DISTINCT", $query);
+	/**
+	 * [join description]
+	 * @param  string $type  LEFT / INNER / RIGHT / LEFT_OUTER etc
+	 * @param  string $table other table join
+	 * @param  string $on    on "tabel1.id = tabel2.id"
+	 * @return this, chaining method
+	 */
+	public function join($type = 'INNER', $table = '', $on = '')	{
+		if ($table != '') {
+			$this->query .= " $type JOIN $table ON $on";
 		}
 		return $this;
 	}
 
-	public function order($str){
+	/**
+	 * ORDER BY
+	 * @param  string $str column name + asc / desc
+	 * @return this, chaining method
+	 */
+	public function order_by($str){
 		if ($this->status == 1) {
 			$this->query .= " ORDER BY $str";
 		}
 		return $this;
 	}
 
+	/**
+	 * find by primary key
+	 * if more than one primary key, using first primary key
+	 * 
+	 * 
+	 * @param  value $id = primary key value
+	 * @return this, chaining method
+	 */
 	public function find($id){
 		$table = $this->table;
 
@@ -77,28 +154,17 @@ class DB
 
 	}
 
-	public function fetch($opt = 'array') {
-		try {
-
-			$query = $this->query;
-			$params = $this->params;
-
-			$db = $this->connectDB();
-			$stmt = $db->prepare($query);
-
-			$stmt->execute($params);
-			$db = null;
-			if ($opt == 'array') {
-				return $stmt->fetchAll(PDO::FETCH_ASSOC);
-			}
-			else if ($opt == 'object') {
-				return $stmt->fetchAll(PDO::FETCH_OBJ);
-			}
-		} catch(PDOException $e) {
-			echo $e->getMessage(); 
-		}
-	}
-
+	/**
+	 * [insert description]
+	 *
+	 * 
+	 * @param  array  $values [description]
+	 * array(
+	 *     'columnName1' => 'valueInsert1',
+	 *     'columnName2' => 'valueInsert2'
+	 * )
+	 * @return this, chaining method
+	 */
 	public function insert($values = array()){
 		$keys = "";
 		$ques = "";
@@ -118,11 +184,25 @@ class DB
 		}
 		
 		$this->params = $params;
-		$this->query = "INSERT INTO $this->table($keys) VALUES ($ques)";
+		$this->query = "INSERT INTO $this->table ($keys) VALUES ($ques)";
 
 		return $this;
 	}
 
+	/**
+	 * [update description]
+	 *
+	 *
+	 * update by first primary key
+	 * 
+	 * @param  value $id
+	 * @param  array  $values 
+	 * array(
+	 *     'columnName1' => 'valueInsert1',
+	 *     'columnName2' => 'valueInsert2'
+	 * )
+	 * @return this, chaining method
+	 */
 	public function update($id, $values = array()){
 		$table = $this->table;
 
@@ -148,13 +228,21 @@ class DB
 		$params[$i] = $id;
 
 		$this->params = $params;
-		print_r($params);
+		
 		$this->query = "UPDATE $this->table SET $keys WHERE $primary = ?";
 
 		return $this;
 
 	}
 
+	/**
+	 * [delete description]
+	 *
+	 * delete by first primary key
+	 * 
+	 * @param  value $id
+	 * @return this, chaining method
+	 */
 	public function delete($id){
 		$table = $this->table;
 
@@ -170,21 +258,107 @@ class DB
 		return $this;
 
 	}
-
-	public function execute($query = "", $params = array()) {
+	/**
+	 * [fetch description]
+	 *
+	 * returning data for SELECT query
+	 * 
+	 * end of chaining method
+	 * 
+	 * @param  string $opt array / object
+	 * @return array / object
+	 */
+	public function fetch($opt = 'array') {
 		try {
 
-			if ($query == "") {
-				$query = $this->query;
-				$params = $this->params;
+			$query = $this->query;
+			$params = $this->params;
+
+			$db = $this->connectDB();
+			$stmt = $db->prepare($query);
+
+			$stmt->execute($params);
+			$db = null;
+			if ($opt == 'array') {
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			}
+			else if ($opt == 'object') {
+				return $stmt->fetchAll(PDO::FETCH_OBJ);
+			}
+		} catch(PDOException $e) {
+			if (PHASE == 'development') {
+				echo "
+				<style>
+					.dmnErr{
+						padding : 50px;
+						font-family : Helvetica, Arial, sans-serif;
+						line-height : 1.8em;
+						color: #333;
+					}
+					.damnMsg{
+						font-size: 2em;
+						line-height: 2.2em;
+						font-weight : bold;
+
+					}
+				</style>
+				";
+				echo '<div class="dmnErr">';
+				echo '<div class="damnMsg">' . $e->getMessage(). "</div>";
+				echo '<div class="damnFl">File : '. $e->getFile(). "</div>";
+				echo '<div class="damnLn"> Line : ' . $e->getLine(). "</div>";
+				echo '<pre class="damnTrc">';
+				echo "<h2>Trace:</h2>" . $e->getTraceAsString(). "<br>"; 
+				echo "</pre>";
+				echo '</div>';
+			}
+		}
+	}
+
+	/**
+	 * [execute description]
+	 *
+	 * executing without returning data, used by INSERT, UPDATE, DELETE query
+	 *
+	 * end of chaining method
+	 * 
+	 */
+	public function execute() {
+		try {
+			$query = $this->query;
+			$params = $this->params;
 
 			$db = $this->connectDB();
 			$stmt = $db->prepare($query);
 			$db = null;
 			$stmt->execute($params);
 		} catch(PDOException $e) {
-			echo $e->getMessage(); 
+			if (PHASE == 'development') {
+				echo "
+				<style>
+					.dmnErr{
+						padding : 50px;
+						font-family : Helvetica, Arial, sans-serif;
+						line-height : 1.8em;
+						color: #333;
+					}
+					.damnMsg{
+						font-size: 2em;
+						line-height: 2.2em;
+						font-weight : bold;
+
+					}
+				</style>
+				";
+				echo '<div class="dmnErr">';
+				echo '<div class="damnMsg">' . $e->getMessage(). "</div>";
+				echo '<div class="damnFl">File : '. $e->getFile(). "</div>";
+				echo '<div class="damnLn"> Line : ' . $e->getLine(). "</div>";
+				echo '<pre class="damnTrc">';
+				echo "<h2>Trace:</h2>" . $e->getTraceAsString(). "<br>"; 
+				echo "</pre>";
+				echo '</div>';
+			}
 		}
 	}
 
