@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="id"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="id"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="id"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="id"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Damn Framework</title>
+	<meta name="keywords" content="damn, php, framework, simple, indonesia">
+	<meta name="description" content="damn framework adalah simple php framework yang membuat bahagia">
+	<meta name="author" content="damaera">
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/hljs.css">
+	<link rel="stylesheet" href="css/layout.css">
+
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/marked.min.js"></script>
+	<script src="js/hljs.js"></script>
+	<script src="js/angular-marked.min.js"></script>
+
+</head>
+<body ng-app="damn-docs">
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<header class="header">
+		<div class="container">
+			<span><a href="#/docs"><h2 class="menuItem">Documentation.</h2></a></span>
+			<span><a href="#"><h2 class="menuItem">Home.</h2></a></span>
+		</div>
+	</header>
+
+	<div ng-view></div>
+
+	<div class="primary container">
+		<div class="sixteen columns footer">
+			<span class="copyright">
+				Created by <a href="https://twitter.com/vamaera" target="_blank">@vamaera</a>
+		  Code licensed under the MIT
+			</span>
+		</div>
+
+	</div>
+	
+	<script src="ctrl/root.js"></script>
+
+<!-- End Document
+================================================== -->
+</body>
+</html>
